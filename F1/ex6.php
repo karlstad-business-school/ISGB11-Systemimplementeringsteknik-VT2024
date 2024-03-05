@@ -30,6 +30,15 @@
 					Kontrollera om en specifik submit-knapp är tryck och skriv ut värdet som kommer till servern.
 					
 				*/
+
+				if ( isset( $_POST["btnSend"]) ) {
+					echo("<i>btnSend är tryckt!</i>");
+				}
+
+				
+				if ( isset( $_POST["btnDemo"]) ) {
+					echo("<i>btnDemo är tryckt!</i>");
+				}
 			?>
 			
 		</div>

@@ -30,6 +30,15 @@
 					Kontrollera om en specifik länk är tryck och skriv ut värdet som kommer till servern.
 					
 				*/
+
+				if ( isset( $_GET["linkSend"]) ) {
+					echo("<i>btnSend är tryckt!</i>");
+				}
+
+				
+				if ( isset( $_GET["linkDemo"]) ) {
+					echo("<i>btnDemo är tryckt!</i>");
+				}
 			?>
 			
 		</div>
