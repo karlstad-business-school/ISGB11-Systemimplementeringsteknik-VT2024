@@ -3,6 +3,41 @@
 
 	//Skapa variabel med default-värde
 	$disabled = true;
+	$bgColor = "#ffffff";
+	$fgColor = "#000000";
+	$css = "body { color: $fgColor; background-color: $bgColor;}";
+
+	if( isset( $_POST["btnSend"] ) ) {
+
+		$bgColor = $_POST["backgroundcolor"];
+		$fgColor = $_POST["foregroundcolor"];
+
+		setcookie("fgColor", $fgColor, time() + 3600);
+		setcookie("bgColor", $bgColor, time() + 3600);
+
+		$css = "body { color: $fgColor; background-color: $bgColor;}";	
+		$disabled = false;	
+
+
+	}
+
+	if( isset( $_POST["btnReset"] ) && isset( $_COOKIE["fgColor"] ) && isset( $_COOKIE["bgColor"] ) ) {
+
+		setcookie("fgColor", "", time() - 3600);
+		setcookie("bgColor", "", time() - 3600);
+
+	}
+
+	if( !isset( $_POST["btnSend"] ) && !isset( $_POST["btnReset"] ) && isset( $_COOKIE["bgColor"] ) && isset( $_COOKIE["fgColor"] ) ) {
+
+		$bgColor = $_COOKIE["bgColor"];
+		$fgColor = $_COOKIE["fgColor"];
+
+		$css = "body { color: $fgColor; background-color: $bgColor;}";	
+		$disabled = false;
+
+	}
+
 
 ?>
 <!doctype html>
@@ -35,12 +70,12 @@
 			<?php
 			
 				//Utskrifter
-				echo("<p>\$_POST</p>") . PHP_EOL;
+				echo("<p>\$_POST</p>" . PHP_EOL);
 				echo( "<pre>" );
 				print_r( $_POST );
 				echo( "</pre>" );
 
-				echo("<p> \$_COOKIE</p>") . PHP_EOL;
+				echo("<p> \$_COOKIE</p>" . PHP_EOL);
 				echo( "<pre>" );
 				print_r( $_COOKIE );
 				echo( "</pre>" );
