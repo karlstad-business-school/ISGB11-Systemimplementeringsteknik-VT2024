@@ -1,6 +1,6 @@
 <?php
 
-    //Ex1 med kakor och översätt sedan till sessioner (Ex2)!
+    session_start();
 
     $errorMsg = "";
     $feedback = "";
@@ -25,45 +25,36 @@
         $errorMsg = "Använd modurl med ?a=c, ?a=u och ?a=d";
     }
 
-    //Kakan skall bara innehålla en tidsstämpel (time()).
-    //Kontroller mot att kakan finns eller inte och lämpliga utskrifter genom feedback och errorMsg skall genomföras.
-
     function create(&$feedback) {
-
         $time = time();
-        if( isset( $_COOKIE["timestamp"] ) ) {
-            $feedback = $time - $_COOKIE["timestamp"];
+        if(isset($_SESSION["timestamp"])) {
+            $feedback = "Det är " . ($time - $_SESSION["timestamp"]) . " s sedan du besökte sessionen senast.";
         } else {
-            $feedback = $time;
+            $feedback = "timestamp är just nu " . $time;
         }
-
-        setcookie("timestamp", $time, $time + 3600 );
+        $_SESSION["timestamp"] = $time;
     }
 
     function update(&$feedback, &$errorMsg) {
-
         $time = time();
-        if( isset( $_COOKIE["timestamp"])) {
-            $feedback = $time - $_COOKIE["timestamp"];
-            setcookie("timestamp", $time, $time + 3600 );
-
-        } else {
-            $errorMsg = "Du behöver skapa en kaka först med ?a=c!";
+        if( isset( $_SESSION["timestamp"] ) ) {
+            $feedback = "Det är " . ($time - $_SESSION["timestamp"]) . " s sedan du besökte sessionen senast.";
+            $_SESSION["timestamp"] = time();
         }
-        
+        else {
+            $errorMsg = "Du behöver skapa sessionen först med ?a=c";
+        }
     }
 
 	function delete(&$feedback, &$errorMsg) {
-
         $time = time();
-        if( isset( $_COOKIE["timestamp"])) {
-            $feedback = $time - $_COOKIE["timestamp"];
-            setcookie("timestamp", "", $time - 3600 );
-
+        if( isset( $_SESSION["timestamp"]) ) {
+            $feedback = "Det är " . ($time - $_SESSION["timestamp"]) . " s sedan du besökte sessionen senast.";
+            session_unset();
+            session_destroy();
         } else {
-            $errorMsg = "Du behöver skapa en kaka först med ?a=c!";
+            $errorMsg = "Du behöver skapa sessionen först med ?a=c";
         }
-
     }
 
 ?>
@@ -87,18 +78,6 @@
                 }
 
             ?>
-
-            <a href="Ex1.php?a=c">Create</a>
-
-            <a href="Ex1.php?a=u">Update</a>
-
-            <a href="Ex1.php?a=d">Delete</a>
-
-            <a href="?a=t">Test</a>
-
-            <a href="Ex1.php">Utan variabeln a</a>
-
-           
 		</div>
 	</body>
 </html>
